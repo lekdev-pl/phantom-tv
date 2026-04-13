@@ -1,14 +1,15 @@
 services:
   - type: web
     name: phantom-tv
-    runtime: docker
+    runtime: node
     plan: free
     region: frankfurt
-    dockerfilePath: ./Dockerfile
+    buildCommand: npm install
+    startCommand: node server.js
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 8080
+        value: 10000
       - key: JWT_SECRET
         generateValue: true
