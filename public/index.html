@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHANTOM TV — Streaming Sans Frontières</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/landing.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👁</text></svg>">
+</head>
+<body class="landing-page">
+
+  <!-- ── NAV ───────────────────────────────── -->
+  <nav class="land-nav" id="mainNav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <span class="logo-icon">👁</span>
+        <span class="logo-text">PHANTOM<span class="logo-accent">TV</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Fonctionnalités</a>
+        <a href="#pricing">Tarifs</a>
+        <a href="#channels">Chaînes</a>
+      </div>
+      <div class="nav-cta">
+        <a href="/login" class="btn btn-ghost btn-sm">Connexion</a>
+        <a href="/register" class="btn btn-primary btn-sm">Commencer</a>
+      </div>
+      <button class="nav-burger" id="navBurger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── HERO ──────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-bg">
+      <canvas id="particleCanvas"></canvas>
+      <div class="hero-gradient"></div>
+      <div class="hero-grid"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge animate-fade-in">
+        <span class="badge-dot"></span>
+        <span>+ de 10 000 chaînes disponibles</span>
+      </div>
+
+      <h1 class="hero-title animate-slide-up">
+        Le Stream<br>
+        <span class="text-gradient">Underground</span>
+      </h1>
+
+      <p class="hero-sub animate-fade-in">
+        Accédez à des milliers de chaînes mondiales en HD et 4K.<br>
+        Sports, films, séries, news — tout. Partout. Maintenant.
+      </p>
+
+      <div class="hero-actions">
+        <a href="/register" class="btn btn-primary btn-lg">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+          Commencer gratuitement
+        </a>
+        <a href="/login" class="btn btn-ghost btn-lg">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13 12H3"/></svg>
+          Déjà membre
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">10K+</span>
+          <span class="stat-label">Chaînes</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-num">4K</span>
+          <span class="stat-label">Ultra HD</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-num">99.9%</span>
+          <span class="stat-label">Uptime</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat">
+          <span class="stat-num">24/7</span>
+          <span class="stat-label">Support</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-preview">
+      <div class="preview-device">
+        <div class="preview-screen">
+          <div class="preview-bar">
+            <div class="preview-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="preview-url">phantom.tv/watch</div>
+          </div>
+          <div class="preview-player">
+            <div class="preview-video-bg"></div>
+            <div class="preview-controls">
+              <div class="preview-progress">
+                <div class="preview-progress-fill"></div>
+              </div>
+              <div class="preview-ctrl-row">
+                <div class="preview-ctrl-left">
+                  <span class="preview-btn">⏮</span>
+                  <span class="preview-btn play-btn">▶</span>
+                  <span class="preview-btn">⏭</span>
+                  <span class="preview-vol">🔊 ████</span>
+                </div>
+                <div class="preview-quality">HD</div>
+              </div>
+            </div>
+            <div class="preview-now-playing">
+              <div class="preview-live-dot"></div>
+              <div class="preview-info">
+                <div class="preview-ch">France 24</div>
+                <div class="preview-prog">World News — En direct</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="preview-channel-list">
+          <div class="preview-ch-item active"><span class="preview-ch-num">01</span><span>France 24</span><span class="preview-ch-live">LIVE</span></div>
+          <div class="preview-ch-item"><span class="preview-ch-num">02</span><span>Al Jazeera</span></div>
+          <div class="preview-ch-item"><span class="preview-ch-num">03</span><span>Euronews</span></div>
+          <div class="preview-ch-item"><span class="preview-ch-num">04</span><span>Bloomberg</span></div>
+          <div class="preview-ch-item"><span class="preview-ch-num">05</span><span>NASA TV</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ───────────────────────────── -->
+  <section class="features-section" id="features">
+    <div class="section-inner">
+      <div class="section-label">Fonctionnalités</div>
+      <h2 class="section-title">Tout ce dont vous avez besoin</h2>
+      <p class="section-sub">Une plateforme complète conçue pour une expérience streaming irréprochable.</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon" style="--icon-color: #7c6ff7;">📡</div>
+          <h3>Streaming HLS</h3>
+          <p>Compatible avec tous les flux M3U8/HLS. Lecture fluide même sur les connexions lentes avec buffering adaptatif.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="--icon-color: #00d4ff;">📋</div>
+          <h3>Guide EPG</h3>
+          <p>Programme électronique complet. Sachez toujours ce qui passe maintenant et ce qui passe ensuite sur chaque chaîne.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="--icon-color: #2ed573;">📥</div>
+          <h3>Import M3U</h3>
+          <p>Importez vos playlists M3U en un clic. Des milliers de chaînes chargées en quelques secondes automatiquement.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="--icon-color: #ffa502;">⭐</div>
+          <h3>Favoris & Playlists</h3>
+          <p>Sauvegardez vos chaînes préférées et créez des playlists personnalisées. Retrouvez tout en un instant.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="--icon-color: #ff4757;">🔐</div>
+          <h3>Accès Contrôlé</h3>
+          <p>Système d'authentification JWT sécurisé. Gestion des abonnements, contrôle parental et accès par rôles.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="--icon-color: #f9ca24;">🎛️</div>
+          <h3>Panel Admin</h3>
+          <p>Interface d'administration complète. Gérez utilisateurs, chaînes, catégories et statistiques en temps réel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CHANNELS PREVIEW ──────────────────── -->
+  <section class="channels-preview-section" id="channels">
+    <div class="section-inner">
+      <div class="section-label">Catalogue</div>
+      <h2 class="section-title">Des milliers de chaînes</h2>
+      <p class="section-sub">Du monde entier, dans toutes les catégories imaginables.</p>
+
+      <div class="cats-showcase">
+        <div class="cat-pill" style="--c:#ff6b6b">📰 Actualités</div>
+        <div class="cat-pill" style="--c:#ffa502">⚽ Sports</div>
+        <div class="cat-pill" style="--c:#2ed573">🎬 Films</div>
+        <div class="cat-pill" style="--c:#1e90ff">📺 Séries</div>
+        <div class="cat-pill" style="--c:#a29bfe">🎥 Docs</div>
+        <div class="cat-pill" style="--c:#fd79a8">🎵 Musique</div>
+        <div class="cat-pill" style="--c:#fdcb6e">🧸 Enfants</div>
+        <div class="cat-pill" style="--c:#00cec9">🌍 International</div>
+      </div>
+
+      <div class="channel-scroll-wrap">
+        <div class="channel-scroll" id="channelScroll">
+          <!-- filled by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PRICING ────────────────────────────── -->
+  <section class="pricing-section" id="pricing">
+    <div class="section-inner">
+      <div class="section-label">Tarifs</div>
+      <h2 class="section-title">Simple et transparent</h2>
+      <p class="section-sub">Commencez gratuitement. Passez premium pour débloquer tout.</p>
+
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="plan-name">Free</div>
+          <div class="plan-price"><span class="price-amount">0€</span><span class="price-period">/mois</span></div>
+          <ul class="plan-features">
+            <li class="ok">Accès aux chaînes publiques</li>
+            <li class="ok">Qualité jusqu'à 720p</li>
+            <li class="ok">1 écran simultané</li>
+            <li class="ok">Guide EPG basique</li>
+            <li class="no">Chaînes premium</li>
+            <li class="no">4K Ultra HD</li>
+            <li class="no">Playlists illimitées</li>
+          </ul>
+          <a href="/register" class="btn btn-ghost btn-lg" style="width:100%;justify-content:center">Commencer</a>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="plan-badge">Populaire</div>
+          <div class="plan-name">Premium</div>
+          <div class="plan-price"><span class="price-amount">9.99€</span><span class="price-period">/mois</span></div>
+          <ul class="plan-features">
+            <li class="ok">Toutes les chaînes</li>
+            <li class="ok">Qualité 4K Ultra HD</li>
+            <li class="ok">3 écrans simultanés</li>
+            <li class="ok">Guide EPG complet</li>
+            <li class="ok">Chaînes premium</li>
+            <li class="ok">Playlists illimitées</li>
+            <li class="ok">Import M3U illimité</li>
+          </ul>
+          <a href="/register" class="btn btn-primary btn-lg" style="width:100%;justify-content:center">Commencer</a>
+        </div>
+
+        <div class="pricing-card">
+          <div class="plan-name">Ultimate</div>
+          <div class="plan-price"><span class="price-amount">19.99€</span><span class="price-period">/mois</span></div>
+          <ul class="plan-features">
+            <li class="ok">Tout Premium inclus</li>
+            <li class="ok">Streams illimités</li>
+            <li class="ok">API access</li>
+            <li class="ok">Support prioritaire</li>
+            <li class="ok">Résolution 8K</li>
+            <li class="ok">Multi-audio</li>
+            <li class="ok">Contenu exclusif</li>
+          </ul>
+          <a href="/register" class="btn btn-secondary btn-lg" style="width:100%;justify-content:center">Commencer</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────── -->
+  <footer class="land-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo">
+          <span class="logo-icon">👁</span>
+          <span class="logo-text">PHANTOM<span class="logo-accent">TV</span></span>
+        </a>
+        <p>Streaming sans frontières depuis 2024.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Produit</h4>
+          <a href="#features">Fonctionnalités</a>
+          <a href="#pricing">Tarifs</a>
+          <a href="/dashboard">Dashboard</a>
+        </div>
+        <div class="footer-col">
+          <h4>Compte</h4>
+          <a href="/login">Connexion</a>
+          <a href="/register">Inscription</a>
+          <a href="/admin">Administration</a>
+        </div>
+        <div class="footer-col">
+          <h4>Légal</h4>
+          <a href="#">Conditions</a>
+          <a href="#">Confidentialité</a>
+          <a href="#">Mentions légales</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 PHANTOM TV — Tous droits réservés</span>
+      <span>Fait avec 🖤 et du code</span>
+    </div>
+  </footer>
+
+  <div id="toast-container"></div>
+
+  <script src="/assets/js/common.js"></script>
+  <script src="/assets/js/landing.js"></script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — PHANTOM TV</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/admin.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👁</text></svg>">
+</head>
+<body class="admin-page">
+
+  <!-- ── SIDEBAR ────────────────────────────── -->
+  <aside class="admin-sidebar">
+    <div class="admin-logo">
+      <a href="/" class="nav-logo">
+        <span class="logo-icon">👁</span>
+        <span class="logo-text">PHANTOM<span class="logo-accent">TV</span></span>
+      </a>
+      <span class="admin-badge">ADMIN</span>
+    </div>
+
+    <nav class="admin-nav">
+      <a href="#" class="admin-link active" data-section="dashboard">
+        <span>📊</span> Dashboard
+      </a>
+      <a href="#" class="admin-link" data-section="channels">
+        <span>📺</span> Chaînes
+      </a>
+      <a href="#" class="admin-link" data-section="accounts">
+        <span>🔑</span> Comptes
+      </a>
+      <a href="#" class="admin-link" data-section="users">
+        <span>👥</span> Utilisateurs
+      </a>
+      <a href="#" class="admin-link" data-section="categories">
+        <span>🏷️</span> Catégories
+      </a>
+      <a href="#" class="admin-link" data-section="import">
+        <span>📥</span> Import M3U
+      </a>
+    </nav>
+
+    <div class="admin-footer">
+      <a href="/dashboard" class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;">
+        ← Retour au site
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ───────────────────────────────── -->
+  <div class="admin-main">
+
+    <!-- Header -->
+    <header class="admin-header">
+      <div>
+        <h1 class="admin-page-title" id="pageTitle">Dashboard</h1>
+        <div class="admin-breadcrumb" id="pageBreadcrumb">Admin / Dashboard</div>
+      </div>
+      <div class="admin-header-right">
+        <div class="admin-user">
+          <div class="user-av" id="adminUserAv">A</div>
+          <span id="adminUserName">Admin</span>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="doLogout()">⏏ Déconnexion</button>
+      </div>
+    </header>
+
+    <!-- ── DASHBOARD SECTION ──────────────────── -->
+    <section class="admin-section active" id="section-dashboard">
+      <!-- Stats Grid -->
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card skeleton" style="height:100px;"></div>
+        <div class="stat-card skeleton" style="height:100px;"></div>
+        <div class="stat-card skeleton" style="height:100px;"></div>
+        <div class="stat-card skeleton" style="height:100px;"></div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Top Channels -->
+        <div class="dash-widget">
+          <div class="widget-header">
+            <h3>🔥 Top Chaînes</h3>
+          </div>
+          <div class="widget-body" id="topChannels">
+            <div class="skeleton" style="height:40px;margin-bottom:8px"></div>
+            <div class="skeleton" style="height:40px;margin-bottom:8px"></div>
+            <div class="skeleton" style="height:40px"></div>
+          </div>
+        </div>
+
+        <!-- Recent Users -->
+        <div class="dash-widget">
+          <div class="widget-header">
+            <h3>👤 Derniers utilisateurs</h3>
+          </div>
+          <div class="widget-body" id="recentUsers">
+            <div class="skeleton" style="height:40px;margin-bottom:8px"></div>
+            <div class="skeleton" style="height:40px;margin-bottom:8px"></div>
+            <div class="skeleton" style="height:40px"></div>
+          </div>
+        </div>
+
+        <!-- Categories Stats -->
+        <div class="dash-widget">
+          <div class="widget-header">
+            <h3>📊 Chaînes par catégorie</h3>
+          </div>
+          <div class="widget-body" id="catStats">
+            <div class="skeleton" style="height:120px"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ACCOUNTS SECTION ─────────────────────── -->
+    <section class="admin-section" id="section-accounts">
+
+      <!-- Stats rapides -->
+      <div class="acc-stats-bar" id="accStatsBar">
+        <div class="acc-stat-pill acc-stat-total skeleton" style="height:60px"></div>
+        <div class="acc-stat-pill acc-stat-active skeleton" style="height:60px"></div>
+        <div class="acc-stat-pill acc-stat-warning skeleton" style="height:60px"></div>
+        <div class="acc-stat-pill acc-stat-danger skeleton" style="height:60px"></div>
+        <div class="acc-stat-pill acc-stat-unlimited skeleton" style="height:60px"></div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="section-toolbar">
+        <div class="toolbar-left">
+          <input type="text" class="form-control" id="accSearch" placeholder="🔍 Rechercher un compte...">
+          <select class="form-control" id="accStatusFilter" style="width:auto">
+            <option value="">Tous les statuts</option>
+            <option value="active">Actif</option>
+            <option value="expiring">Expire bientôt</option>
+            <option value="expired">Expiré</option>
+            <option value="unlimited">Illimité</option>
+          </select>
+          <select class="form-control" id="accPlanFilter" style="width:auto">
+            <option value="">Tous les plans</option>
+            <option value="free">Free</option>
+            <option value="premium">Premium</option>
+            <option value="ultimate">Ultimate</option>
+            <option value="vip">VIP</option>
+          </select>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn btn-primary" onclick="showCreateAccountModal()">
+            ＋ Créer un compte
+          </button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="data-table-wrap">
+        <table class="data-table" id="accountsTable">
+          <thead>
+            <tr>
+              <th>Compte</th>
+              <th>Plan</th>
+              <th>Abonnement</th>
+              <th>Streams</th>
+              <th>Statut</th>
+              <th>Créé le</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="accountsTbody">
+            <tr><td colspan="7" class="table-loading">Chargement...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-pagination" id="accountsPagination"></div>
+
+    </section>
+
+    <!-- ── CHANNELS SECTION ───────────────────── -->
+    <section class="admin-section" id="section-channels">
+      <div class="section-toolbar">
+        <div class="toolbar-left">
+          <input type="text" class="form-control" id="channelSearch" placeholder="🔍 Rechercher une chaîne...">
+          <select class="form-control" id="channelCatFilter" style="width:auto">
+            <option value="">Toutes catégories</option>
+          </select>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn btn-primary" onclick="showChannelModal()">
+            + Ajouter une chaîne
+          </button>
+        </div>
+      </div>
+
+      <div class="data-table-wrap">
+        <table class="data-table" id="channelsTable">
+          <thead>
+            <tr>
+              <th>Chaîne</th>
+              <th>Catégorie</th>
+              <th>Qualité</th>
+              <th>Pays</th>
+              <th>Vues</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="channelsTbody">
+            <tr><td colspan="7" class="table-loading">Chargement...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-pagination" id="channelsPagination"></div>
+    </section>
+
+    <!-- ── USERS SECTION ─────────────────────── -->
+    <section class="admin-section" id="section-users">
+      <div class="section-toolbar">
+        <div class="toolbar-left">
+          <input type="text" class="form-control" id="userSearch" placeholder="🔍 Rechercher un utilisateur...">
+          <select class="form-control" id="userRoleFilter" style="width:auto">
+            <option value="">Tous les rôles</option>
+            <option value="user">Utilisateur</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="data-table-wrap">
+        <table class="data-table" id="usersTable">
+          <thead>
+            <tr>
+              <th>Utilisateur</th>
+              <th>Email</th>
+              <th>Rôle</th>
+              <th>Plan</th>
+              <th>Statut</th>
+              <th>Inscrit le</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="usersTbody">
+            <tr><td colspan="7" class="table-loading">Chargement...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-pagination" id="usersPagination"></div>
+    </section>
+
+    <!-- ── CATEGORIES SECTION ─────────────────── -->
+    <section class="admin-section" id="section-categories">
+      <div class="section-toolbar">
+        <div class="toolbar-right">
+          <button class="btn btn-primary" onclick="showCategoryModal()">+ Ajouter une catégorie</button>
+        </div>
+      </div>
+
+      <div class="categories-grid" id="categoriesGrid">
+        <div class="skeleton" style="height:80px"></div>
+        <div class="skeleton" style="height:80px"></div>
+        <div class="skeleton" style="height:80px"></div>
+      </div>
+    </section>
+
+    <!-- ── IMPORT M3U SECTION ─────────────────── -->
+    <section class="admin-section" id="section-import">
+      <div class="import-card">
+        <div class="import-header">
+          <span class="import-icon">📥</span>
+          <h2>Import de playlist M3U</h2>
+          <p>Importez des milliers de chaînes depuis un fichier M3U ou M3U8.</p>
+        </div>
+
+        <form id="importForm">
+          <div class="import-drop-zone" id="dropZone">
+            <span class="drop-icon">📁</span>
+            <p><strong>Glissez votre fichier M3U ici</strong></p>
+            <p class="drop-sub">ou cliquez pour sélectionner</p>
+            <input type="file" id="m3uFile" accept=".m3u,.m3u8,.txt" style="display:none">
+            <button type="button" class="btn btn-ghost" onclick="document.getElementById('m3uFile').click()">
+              Choisir un fichier
+            </button>
+          </div>
+
+          <div class="import-file-info hidden" id="importFileInfo">
+            <span class="file-icon">📄</span>
+            <span id="importFileName">—</span>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="clearImportFile()">✕</button>
+          </div>
+
+          <div class="import-options">
+            <div class="form-group">
+              <label class="form-label">Catégorie par défaut</label>
+              <select class="form-control" id="importCategory">
+                <option value="">Aucune catégorie</option>
+              </select>
+            </div>
+            <label class="checkbox-label">
+              <input type="checkbox" id="importOverwrite">
+              <span class="checkbox-custom"></span>
+              <span>Mettre à jour les chaînes existantes (même URL)</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center" id="importBtn">
+            📥 Lancer l'importation
+          </button>
+        </form>
+
+        <div class="import-result hidden" id="importResult"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/assets/js/common.js"></script>
+  <script src="/assets/js/admin.js"></script>
+</body>
+</html>

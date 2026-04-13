@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — PHANTOM TV</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/dashboard.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👁</text></svg>">
+</head>
+<body class="dashboard-page">
+
+  <!-- ── SIDEBAR ─────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <a href="/" class="nav-logo">
+        <span class="logo-icon">👁</span>
+        <span class="logo-text">PHANTOM<span class="logo-accent">TV</span></span>
+      </a>
+      <button class="btn btn-icon btn-ghost sidebar-close" id="sidebarClose">✕</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Navigation</div>
+      <a href="#" class="sidebar-link active" data-view="all">
+        <span class="link-icon">🌐</span> Toutes les chaînes
+      </a>
+      <a href="#" class="sidebar-link" data-view="favorites">
+        <span class="link-icon">⭐</span> Mes favoris
+      </a>
+      <a href="#" class="sidebar-link" data-view="history">
+        <span class="link-icon">🕒</span> Historique
+      </a>
+
+      <div class="nav-section-label">Catégories</div>
+      <div id="categoriesList">
+        <div class="skeleton" style="height:36px;margin-bottom:4px;"></div>
+        <div class="skeleton" style="height:36px;margin-bottom:4px;"></div>
+        <div class="skeleton" style="height:36px;margin-bottom:4px;"></div>
+      </div>
+    </nav>
+
+    <div class="sidebar-user" id="sidebarUser">
+      <div class="user-avatar" id="userAvatar">?</div>
+      <div class="user-info">
+        <div class="user-name" id="userName">Chargement...</div>
+        <div class="user-plan" id="userPlan">—</div>
+      </div>
+      <div class="user-actions">
+        <button class="btn btn-icon btn-ghost btn-sm" onclick="showProfileModal()" title="Profil">⚙</button>
+        <button class="btn btn-icon btn-ghost btn-sm" onclick="doLogout()" title="Déconnexion">⏏</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN CONTENT ───────────────────── -->
+  <div class="main-wrap">
+
+    <!-- Header -->
+    <header class="dash-header">
+      <div class="dash-header-left">
+        <button class="btn btn-icon btn-ghost" id="sidebarToggle">☰</button>
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" class="search-input" placeholder="Rechercher une chaîne...">
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
+      <div class="dash-header-right">
+        <button class="btn btn-icon btn-ghost" id="viewToggleBtn" title="Changer de vue">⊞</button>
+        <select class="form-control" id="sortSelect" style="width:auto;padding:8px 32px 8px 12px;font-size:0.85rem">
+          <option value="name">Nom A-Z</option>
+          <option value="views">Plus vus</option>
+          <option value="newest">Plus récents</option>
+        </select>
+        <select class="form-control" id="qualityFilter" style="width:auto;padding:8px 32px 8px 12px;font-size:0.85rem">
+          <option value="">Toutes qualités</option>
+          <option value="4K">4K</option>
+          <option value="FHD">Full HD</option>
+          <option value="HD">HD</option>
+          <option value="SD">SD</option>
+        </select>
+        <a href="/admin" id="adminLink" class="btn btn-ghost btn-sm hidden">Admin</a>
+      </div>
+    </header>
+
+    <!-- EPG NOW BAR -->
+    <div class="epg-ticker" id="epgTicker">
+      <span class="ticker-label"><span class="live-dot"></span> EN DIRECT</span>
+      <div class="ticker-content" id="tickerContent">
+        <span style="color:var(--text-muted)">Chargement du guide des programmes...</span>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <main class="dash-main">
+      <!-- View title -->
+      <div class="view-header">
+        <div>
+          <h2 class="view-title" id="viewTitle">Toutes les chaînes</h2>
+          <span class="view-count" id="viewCount"></span>
+        </div>
+        <div class="view-actions">
+          <div class="quality-badges" id="qualityBadges">
+            <button class="quality-badge active" data-quality="">Tout</button>
+            <button class="quality-badge" data-quality="4K">4K</button>
+            <button class="quality-badge" data-quality="FHD">FHD</button>
+            <button class="quality-badge" data-quality="HD">HD</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured channels -->
+      <div id="featuredSection">
+        <div class="sub-title">⚡ À la une</div>
+        <div class="featured-grid" id="featuredGrid">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <!-- Channels grid -->
+      <div id="channelsSection">
+        <div class="sub-title" id="channelsSectionTitle">Toutes les chaînes</div>
+        <div class="channels-grid" id="channelsGrid">
+          <!-- filled by JS -->
+        </div>
+        <div class="pagination" id="pagination"></div>
+        <div class="empty-state hidden" id="emptyState">
+          <div class="empty-icon">📭</div>
+          <h3>Aucune chaîne trouvée</h3>
+          <p>Essayez une autre recherche ou catégorie.</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- PROFILE MODAL -->
+  <div id="profileModalContainer"></div>
+
+  <div id="toast-container"></div>
+
+  <script src="/assets/js/common.js"></script>
+  <script src="/assets/js/dashboard.js"></script>
+</body>
+</html>

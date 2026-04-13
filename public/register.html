@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription — PHANTOM TV</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/auth.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👁</text></svg>">
+</head>
+<body class="auth-page">
+
+  <div class="auth-bg">
+    <div class="auth-glow auth-glow-1" style="top:10%;right:10%;"></div>
+    <div class="auth-glow auth-glow-2" style="bottom:20%;left:5%;"></div>
+    <div class="auth-grid"></div>
+  </div>
+
+  <div class="auth-container">
+    <div class="auth-card animate-slide-up">
+
+      <a href="/" class="auth-logo">
+        <span class="logo-icon">👁</span>
+        <span class="logo-text">PHANTOM<span class="logo-accent">TV</span></span>
+      </a>
+
+      <div class="auth-header">
+        <h1>Créer un compte</h1>
+        <p>Rejoignez la communauté PHANTOM TV.</p>
+      </div>
+
+      <form id="registerForm" class="auth-form" novalidate>
+        <div class="form-group">
+          <label class="form-label">Nom d'utilisateur</label>
+          <div class="input-wrapper">
+            <span class="input-icon">👤</span>
+            <input type="text" id="username" class="form-control form-control-icon"
+              placeholder="mon_pseudo" autocomplete="username" required minlength="3" maxlength="30">
+          </div>
+          <span class="field-hint">Entre 3 et 30 caractères. Uniquement lettres, chiffres, _</span>
+          <span class="field-error" id="usernameError"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <div class="input-wrapper">
+            <span class="input-icon">📧</span>
+            <input type="email" id="email" class="form-control form-control-icon"
+              placeholder="vous@exemple.com" autocomplete="email" required>
+          </div>
+          <span class="field-error" id="emailError"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔑</span>
+            <input type="password" id="password" class="form-control form-control-icon"
+              placeholder="••••••••" autocomplete="new-password" required minlength="6">
+            <button type="button" class="input-toggle-pw" id="togglePw">👁</button>
+          </div>
+          <div class="pw-strength" id="pwStrength">
+            <div class="pw-bar"><div class="pw-fill" id="pwFill"></div></div>
+            <span id="pwLabel">Entrez un mot de passe</span>
+          </div>
+          <span class="field-error" id="passwordError"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Confirmer le mot de passe</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔑</span>
+            <input type="password" id="confirmPassword" class="form-control form-control-icon"
+              placeholder="••••••••" autocomplete="new-password" required>
+          </div>
+          <span class="field-error" id="confirmError"></span>
+        </div>
+
+        <label class="checkbox-label" style="margin-bottom:8px">
+          <input type="checkbox" id="agreeTerms" required>
+          <span class="checkbox-custom"></span>
+          <span>J'accepte les <a href="#">conditions d'utilisation</a> et la <a href="#">politique de confidentialité</a></span>
+        </label>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center" id="registerBtn">
+          Créer mon compte
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Déjà un compte ? <a href="/login">Se connecter →</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/assets/js/common.js"></script>
+  <script>
+    if (Auth.isLoggedIn()) window.location.href = '/dashboard';
+
+    const pwInput = document.getElementById('password');
+    const pwFill = document.getElementById('pwFill');
+    const pwLabel = document.getElementById('pwLabel');
+    const togglePw = document.getElementById('togglePw');
+
+    togglePw.addEventListener('click', () => {
+      const show = pwInput.type === 'password';
+      pwInput.type = show ? 'text' : 'password';
+      togglePw.textContent = show ? '🙈' : '👁';
+    });
+
+    function getPasswordStrength(pw) {
+      let score = 0;
+      if (pw.length >= 8) score++;
+      if (pw.length >= 12) score++;
+      if (/[A-Z]/.test(pw)) score++;
+      if (/[0-9]/.test(pw)) score++;
+      if (/[^A-Za-z0-9]/.test(pw)) score++;
+      return score;
+    }
+
+    pwInput.addEventListener('input', () => {
+      const pw = pwInput.value;
+      const strength = getPasswordStrength(pw);
+      const labels = ['', 'Très faible', 'Faible', 'Moyen', 'Fort', 'Très fort'];
+      const colors = ['', '#ff4757', '#ff6b6b', '#ffa502', '#2ed573', '#00d4ff'];
+
+      if (!pw) {
+        pwFill.style.width = '0';
+        pwLabel.textContent = 'Entrez un mot de passe';
+        return;
+      }
+
+      pwFill.style.width = `${(strength / 5) * 100}%`;
+      pwFill.style.background = colors[strength] || colors[1];
+      pwLabel.textContent = labels[strength] || 'Très faible';
+      pwLabel.style.color = colors[strength] || colors[1];
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirmPassword').value;
+      const terms = document.getElementById('agreeTerms').checked;
+
+      // Validation
+      let valid = true;
+      const clearErrors = () => document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+      clearErrors();
+
+      if (username.length < 3) {
+        document.getElementById('usernameError').textContent = 'Nom trop court (min 3 caractères)';
+        valid = false;
+      }
+      if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+        document.getElementById('usernameError').textContent = 'Uniquement lettres, chiffres et _';
+        valid = false;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('emailError').textContent = 'Email invalide';
+        valid = false;
+      }
+      if (password.length < 6) {
+        document.getElementById('passwordError').textContent = 'Mot de passe trop court (min 6 caractères)';
+        valid = false;
+      }
+      if (password !== confirm) {
+        document.getElementById('confirmError').textContent = 'Les mots de passe ne correspondent pas';
+        valid = false;
+      }
+      if (!terms) {
+        showToast('Vous devez accepter les conditions', 'error');
+        valid = false;
+      }
+      if (!valid) return;
+
+      const btn = document.getElementById('registerBtn');
+      btn.disabled = true;
+      btn.textContent = 'Création...';
+
+      try {
+        const data = await apiFetch('/auth/register', {
+          method: 'POST',
+          body: JSON.stringify({ username, email, password })
+        });
+
+        Auth.setToken(data.token);
+        Auth.setUser(data.user);
+        showToast('Compte créé avec succès ! Bienvenue 🎉', 'success');
+        setTimeout(() => window.location.href = '/dashboard', 1000);
+      } catch (err) {
+        showToast(err.message, 'error');
+        btn.disabled = false;
+        btn.textContent = 'Créer mon compte';
+      }
+    });
+  </script>
+</body>
+</html>

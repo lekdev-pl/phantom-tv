@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion — PHANTOM TV</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/auth.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👁</text></svg>">
+</head>
+<body class="auth-page">
+
+  <div class="auth-bg">
+    <div class="auth-glow auth-glow-1"></div>
+    <div class="auth-glow auth-glow-2"></div>
+    <div class="auth-grid"></div>
+  </div>
+
+  <div class="auth-container">
+    <div class="auth-card animate-slide-up">
+
+      <!-- Logo -->
+      <a href="/" class="auth-logo">
+        <span class="logo-icon">👁</span>
+        <span class="logo-text">PHANTOM<span class="logo-accent">TV</span></span>
+      </a>
+
+      <div class="auth-header">
+        <h1>Bon retour</h1>
+        <p>Connectez-vous pour accéder à votre espace.</p>
+      </div>
+
+      <form id="loginForm" class="auth-form" novalidate>
+        <div class="form-group">
+          <label class="form-label">Identifiant ou Email</label>
+          <div class="input-wrapper">
+            <span class="input-icon">👤</span>
+            <input type="text" id="username" class="form-control form-control-icon"
+              placeholder="votre_pseudo ou email@ex.com" autocomplete="username" required>
+          </div>
+          <span class="field-error" id="usernameError"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Mot de passe</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🔑</span>
+            <input type="password" id="password" class="form-control form-control-icon"
+              placeholder="••••••••" autocomplete="current-password" required>
+            <button type="button" class="input-toggle-pw" id="togglePw" title="Afficher">👁</button>
+          </div>
+          <span class="field-error" id="passwordError"></span>
+        </div>
+
+        <div class="auth-options">
+          <label class="checkbox-label">
+            <input type="checkbox" id="rememberMe">
+            <span class="checkbox-custom"></span>
+            <span>Se souvenir de moi</span>
+          </label>
+          <a href="#" class="forgot-link">Mot de passe oublié ?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center" id="loginBtn">
+          <span id="loginBtnText">Se connecter</span>
+          <span id="loginBtnSpinner" class="hidden" style="width:18px;height:18px;border-width:2px" class="spinner"></span>
+        </button>
+
+        <div class="auth-divider"><span>ou</span></div>
+
+        <div class="auth-demo">
+          <p>Comptes démo :</p>
+          <div class="demo-btns">
+            <button type="button" class="btn btn-ghost btn-sm" onclick="fillDemo('admin','admin123')">
+              👑 Admin
+            </button>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="fillDemo('demo','demo123')">
+              👤 Utilisateur
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="auth-footer">
+        <p>Pas encore de compte ? <a href="/register">Créer un compte →</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/assets/js/common.js"></script>
+  <script>
+    // Redirect if already logged in
+    if (Auth.isLoggedIn()) window.location.href = '/dashboard';
+
+    const form = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const btnText = document.getElementById('loginBtnText');
+    const btnSpinner = document.getElementById('loginBtnSpinner');
+    const togglePw = document.getElementById('togglePw');
+    const pwInput = document.getElementById('password');
+
+    togglePw.addEventListener('click', () => {
+      const show = pwInput.type === 'password';
+      pwInput.type = show ? 'text' : 'password';
+      togglePw.textContent = show ? '🙈' : '👁';
+    });
+
+    function fillDemo(u, p) {
+      document.getElementById('username').value = u;
+      document.getElementById('password').value = p;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        showToast('Veuillez remplir tous les champs', 'error');
+        return;
+      }
+
+      loginBtn.disabled = true;
+      btnText.textContent = 'Connexion...';
+      btnSpinner.classList.remove('hidden');
+      btnSpinner.style.cssText = 'display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite';
+
+      try {
+        const data = await apiFetch('/auth/login', {
+          method: 'POST',
+          body: JSON.stringify({ username, password })
+        });
+
+        Auth.setToken(data.token);
+        Auth.setUser(data.user);
+
+        showToast(`Bienvenue, ${data.user.username} !`, 'success');
+
+        const redirect = new URLSearchParams(window.location.search).get('redirect');
+        setTimeout(() => {
+          if (data.user.role === 'admin') {
+            window.location.href = redirect || '/admin';
+          } else {
+            window.location.href = redirect || '/dashboard';
+          }
+        }, 800);
+      } catch (err) {
+        showToast(err.message, 'error');
+        loginBtn.disabled = false;
+        btnText.textContent = 'Se connecter';
+        btnSpinner.style.display = 'none';
+      }
+    });
+
+    // Check expired session
+    if (new URLSearchParams(window.location.search).get('expired')) {
+      showToast('Session expirée, reconnectez-vous', 'warning');
+    }
+  </script>
+</body>
+</html>

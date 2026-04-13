@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecteur — PHANTOM TV</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/player.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👁</text></svg>">
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body class="player-page">
+
+  <!-- ── BACK BAR ─────────────────────────── -->
+  <div class="player-topbar" id="playerTopbar">
+    <div class="topbar-left">
+      <a href="/dashboard" class="btn btn-icon btn-ghost" title="Retour">←</a>
+      <div class="now-playing-info">
+        <span class="np-channel" id="npChannel">Chargement...</span>
+        <span class="np-program" id="npProgram"></span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-ghost btn-sm" id="favBtn" onclick="toggleChannelFav()">☆ Favoris</button>
+      <a href="/dashboard" class="btn btn-ghost btn-sm">📺 Chaînes</a>
+      <div class="player-user">
+        <div class="user-av" id="playerUserAv">?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MAIN LAYOUT ───────────────────────── -->
+  <div class="player-layout">
+
+    <!-- Video + Controls -->
+    <div class="player-center">
+
+      <!-- Video wrapper -->
+      <div class="video-wrap" id="videoWrap">
+        <!-- Loading overlay -->
+        <div class="player-loading" id="playerLoading">
+          <div class="loading-logo">👁</div>
+          <div class="loading-name" id="loadingName">Connexion...</div>
+          <div class="spinner"></div>
+          <div class="loading-sub">Chargement du flux...</div>
+        </div>
+
+        <!-- Error overlay -->
+        <div class="player-error hidden" id="playerError">
+          <div class="error-icon">⚠️</div>
+          <h3>Erreur de lecture</h3>
+          <p id="errorMsg">Impossible de lire ce flux.</p>
+          <button class="btn btn-primary" onclick="retryStream()">🔄 Réessayer</button>
+          <a href="/dashboard" class="btn btn-ghost">← Retour</a>
+        </div>
+
+        <!-- The actual video -->
+        <video id="mainVideo" preload="metadata" playsinline></video>
+
+        <!-- Custom controls overlay -->
+        <div class="video-controls-wrap" id="controlsWrap">
+          <!-- Center play/pause zone -->
+          <div class="video-center-zone" id="videoCenterZone">
+            <div class="center-play-btn" id="centerPlayBtn">
+              <span id="centerPlayIcon">▶</span>
+            </div>
+          </div>
+
+          <!-- Bottom controls bar -->
+          <div class="video-controls" id="videoControls">
+            <!-- Progress (live indicator) -->
+            <div class="ctrl-live-badge">
+              <span class="live-dot-ctrl"></span> DIRECT
+            </div>
+
+            <!-- Controls row -->
+            <div class="ctrl-row">
+              <div class="ctrl-left">
+                <button class="ctrl-btn" id="playPauseBtn" title="Play/Pause">⏸</button>
+                <div class="volume-wrap">
+                  <button class="ctrl-btn" id="muteBtn" title="Mute">🔊</button>
+                  <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="1">
+                </div>
+                <span class="ctrl-time" id="ctrlTime">LIVE</span>
+              </div>
+              <div class="ctrl-right">
+                <button class="ctrl-btn" id="pipBtn" title="Picture in Picture">⧉</button>
+                <select class="ctrl-quality" id="qualitySelect" title="Qualité">
+                  <option value="-1">Auto</option>
+                </select>
+                <button class="ctrl-btn" id="fsBtn" title="Plein écran">⛶</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Channel info below player -->
+      <div class="player-info-bar">
+        <div class="pib-left">
+          <div class="pib-logo" id="pibLogo">📺</div>
+          <div class="pib-details">
+            <h2 class="pib-name" id="pibName">—</h2>
+            <div class="pib-meta" id="pibMeta">—</div>
+          </div>
+        </div>
+        <div class="pib-right">
+          <span class="badge badge-danger" id="pibLiveBadge">⬤ DIRECT</span>
+          <span class="pib-views" id="pibViews"></span>
+        </div>
+      </div>
+
+      <!-- EPG Today -->
+      <div class="epg-section">
+        <h3 class="epg-title">📋 Programme du jour</h3>
+        <div class="epg-list" id="epgList">
+          <div class="epg-loading">Chargement du guide...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar: Related Channels -->
+    <aside class="player-sidebar">
+      <div class="ps-header">
+        <h3>📺 Autres chaînes</h3>
+        <div class="ps-search">
+          <input type="text" class="form-control" id="psSearch" placeholder="Recherche...">
+        </div>
+      </div>
+      <div class="ps-channels" id="psChannels">
+        <!-- filled by JS -->
+      </div>
+    </aside>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="/assets/js/common.js"></script>
+  <script src="/assets/js/player.js"></script>
+</body>
+</html>
