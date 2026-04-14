@@ -6,49 +6,9 @@ const { verifyToken, JWT_SECRET } = require('../middleware/auth');
 
 const router = express.Router();
 
-// POST /api/auth/register
+// POST /api/auth/register — DÉSACTIVÉ : seul l'admin peut créer des comptes
 router.post('/register', (req, res) => {
-  const { username, email, password } = req.body;
-
-  if (!username || !email || !password) {
-    return res.status(400).json({ error: 'Tous les champs sont requis' });
-  }
-  if (username.length < 3 || username.length > 30) {
-    return res.status(400).json({ error: 'Le nom doit faire entre 3 et 30 caractères' });
-  }
-  if (password.length < 6) {
-    return res.status(400).json({ error: 'Mot de passe trop court (min 6 caractères)' });
-  }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return res.status(400).json({ error: 'Email invalide' });
-  }
-
-  const db = getDb();
-  try {
-    const existing = db.prepare('SELECT id FROM users WHERE username = ? OR email = ?').get(username, email);
-    if (existing) {
-      return res.status(409).json({ error: 'Nom d\'utilisateur ou email déjà utilisé' });
-    }
-
-    const hash = bcrypt.hashSync(password, 12);
-    const result = db.prepare(`
-      INSERT INTO users (username, email, password_hash, role, subscription_plan)
-      VALUES (?, ?, ?, 'user', 'free')
-    `).run(username, email.toLowerCase(), hash);
-
-    const user = db.prepare('SELECT id, username, email, role, subscription_plan, created_at FROM users WHERE id = ?').get(result.lastInsertRowid);
-
-    const token = jwt.sign(
-      { id: user.id, username: user.username, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    );
-
-    res.status(201).json({ token, user });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Erreur serveur' });
-  }
+  res.status(403).json({ error: 'L\'inscription publique est désactivée. Contactez l\'administrateur.' });
 });
 
 // POST /api/auth/login

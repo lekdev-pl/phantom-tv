@@ -89,7 +89,7 @@ app.get('/api/epg/now', (req, res) => {
 // ─── SPA FALLBACK ─────────────────────────────────────────────────────────────
 app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, 'public/dashboard.html')));
 app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'public/login.html')));
-app.get('/register', (req, res) => res.sendFile(path.join(__dirname, 'public/register.html')));
+app.get('/register', (req, res) => res.redirect('/login'));
 app.get('/watch/:id', (req, res) => res.sendFile(path.join(__dirname, 'public/player.html')));
 app.get('/admin*', (req, res) => res.sendFile(path.join(__dirname, 'public/admin.html')));
 
@@ -103,6 +103,6 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`\n▓░▒▓ PHANTOM TV ▓▒░▓`);
   console.log(`🌐 http://localhost:${PORT}`);
-  console.log(`🔐 Admin: admin / admin123`);
+  console.log(`🔐 Admin: admin / klnkdfjhgdfg0802394800lfgkhj`);
   console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
 });
